@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>HTML5 Pachinko Ultimate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: #111; color: #eee; text-align: center;
@@ -20,39 +23,61 @@
             margin: 15px auto; background: #222; padding: 10px;
             border-radius: 8px; font-size: 14px; max-width: 640px; text-align: left;
         }
-        .bgm-item { margin-bottom: 5px; }
-        audio { height: 25px; width: 100%; }
+        .bgm-item { margin-bottom: 5px; border-bottom: 1px solid #444; padding-bottom: 5px; }
+        audio { height: 30px; width: 100%; margin-top: 5px; }
     </style>
 </head>
 <body>
 
-    <canvas id="gameCanvas" width="160" height="120"></canvas>
+    <canvas id="gameCanvas"></canvas>
 
-    <div id="audio-panel">
-        <p style="text-align:center; font-weight:bold; margin-top:0;">🎵 オリジナルBGM設定</p>
-        <p style="font-size:12px; color:#aaa; text-align:center;">以下の名前でmp3を用意してGitHubに置くだけで自動で流れるよ！</p>
+    <details id="audio-panel">
+        <summary style="cursor: pointer; font-weight: bold; text-align: center;">🎵 BGM設定を開く (13曲フル対応!)</summary>
+        <p style="font-size:12px; color:#aaa; text-align:center;">Pyxel版と同じ13種類のBGMを完全再現！<br>以下の名前でmp3をGitHubに置くだけだよ〜！</p>
         
-        <div class="bgm-item"><small>① bgm-normal.mp3 (通常時)</small>
-            <audio id="bgm-normal" src="bgm-normal.mp3" loop controls></audio></div>
-        <div class="bgm-item"><small>② bgm-reach.mp3 (ノーマルリーチ)</small>
-            <audio id="bgm-reach" src="bgm-reach.mp3" loop controls></audio></div>
-        <div class="bgm-item"><small>③ bgm-sp-reach.mp3 (SPリーチ/REVERSE RUSH)</small>
-            <audio id="bgm-sp-reach" src="bgm-sp-reach.mp3" loop controls></audio></div>
-        <div class="bgm-item"><small>④ bgm-fever.mp3 (確変大当たり中)</small>
-            <audio id="bgm-fever" src="bgm-fever.mp3" loop controls></audio></div>
-        <div class="bgm-item"><small>⑤ bgm-super-fever.mp3 (SUPER確変/全回転)</small>
-            <audio id="bgm-super-fever" src="bgm-super-fever.mp3" loop controls></audio></div>
-    </div>
+        <div style="max-height: 250px; overflow-y: auto; background: #1a1a1a; padding: 10px; border-radius: 5px;">
+            <div class="bgm-item"><small>1. bgm-normal.mp3 (通常時)</small><audio id="bgm-normal" src="bgm-normal.mp3" loop controls></audio></div>
+            <div class="bgm-item"><small>2. bgm-reach.mp3 (ノーマルリーチ)</small><audio id="bgm-reach" src="bgm-reach.mp3" loop controls></audio></div>
+            <div class="bgm-item"><small>3. bgm-sp1.mp3 (SPリーチ1)</small><audio id="bgm-sp1" src="bgm-sp1.mp3" loop controls></audio></div>
+            <div class="bgm-item"><small>4. bgm-sp2.mp3 (SPリーチ2 / SP9 REVERSE)</small><audio id="bgm-sp2" src="bgm-sp2.mp3" loop controls></audio></div>
+            <div class="bgm-item"><small>5. bgm-sp4.mp3 (SPリーチ4)</small><audio id="bgm-sp4" src="bgm-sp4.mp3" loop controls></audio></div>
+            <div class="bgm-item"><small>6. bgm-sp5.mp3 (SPリーチ5)</small><audio id="bgm-sp5" src="bgm-sp5.mp3" loop controls></audio></div>
+            <div class="bgm-item"><small>7. bgm-sp6.mp3 (SPリーチ6 / 8)</small><audio id="bgm-sp6" src="bgm-sp6.mp3" loop controls></audio></div>
+            <div class="bgm-item"><small>8. bgm-sp7.mp3 (SPリーチ7 CROSS FIRE)</small><audio id="bgm-sp7" src="bgm-sp7.mp3" loop controls></audio></div>
+            <div class="bgm-item"><small>9. bgm-sp-other.mp3 (その他のSP)</small><audio id="bgm-sp-other" src="bgm-sp-other.mp3" loop controls></audio></div>
+            <div class="bgm-item"><small>10. bgm-zenkaiten.mp3 (全回転)</small><audio id="bgm-zenkaiten" src="bgm-zenkaiten.mp3" loop controls></audio></div>
+            <div class="bgm-item"><small>11. bgm-win.mp3 (通常大当たり)</small><audio id="bgm-win" src="bgm-win.mp3" loop controls></audio></div>
+            <div class="bgm-item"><small>12. bgm-win-super.mp3 (SUPER大当たり)</small><audio id="bgm-win-super" src="bgm-win-super.mp3" loop controls></audio></div>
+            <div class="bgm-item"><small>13. bgm-clear.mp3 (50000ptクリア時)</small><audio id="bgm-clear" src="bgm-clear.mp3" loop controls></audio></div>
+        </div>
+    </details>
 
     <script>
+        // --- 内部解像度を4倍にして文字をクッキリさせるよ！ ---
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        const SCALE = 4;
+        canvas.width = 160 * SCALE;
+        canvas.height = 120 * SCALE;
+        ctx.textBaseline = "top";
+
         // --- BGM管理システム ---
-        const bgms = ["bgm-normal", "bgm-reach", "bgm-sp-reach", "bgm-fever", "bgm-super-fever"];
+        const bgms = [
+            "bgm-normal", "bgm-reach", "bgm-sp1", "bgm-sp2", "bgm-sp4", 
+            "bgm-sp5", "bgm-sp6", "bgm-sp7", "bgm-sp-other", 
+            "bgm-zenkaiten", "bgm-win", "bgm-win-super", "bgm-clear"
+        ];
+        
         function playBGM(id) {
             bgms.forEach(bgmId => {
                 let a = document.getElementById(bgmId);
                 if (a) {
-                    if (bgmId === id) { a.play().catch(()=>{}); } 
-                    else { a.pause(); }
+                    if (bgmId === id) { 
+                        a.play().catch(()=>{}); 
+                    } else { 
+                        a.pause(); 
+                        a.currentTime = 0; // 他の曲は最初から再生されるようにリセット
+                    }
                 }
             });
         }
@@ -61,26 +86,24 @@
         // --- 簡易SE（効果音）システム ---
         function playSE(type) {
             if(!window.AudioContext && !window.webkitAudioContext) return;
-            const actx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = actx.createOscillator();
-            const gain = actx.createGain();
-            osc.connect(gain); gain.connect(actx.destination);
-            if (type === 'beep') {
-                osc.type = 'square'; osc.frequency.value = 440;
-                gain.gain.setValueAtTime(0.05, actx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + 0.1);
-                osc.start(); osc.stop(actx.currentTime + 0.1);
-            } else if (type === 'stop') {
-                osc.type = 'triangle'; osc.frequency.value = 200;
-                gain.gain.setValueAtTime(0.05, actx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + 0.1);
-                osc.start(); osc.stop(actx.currentTime + 0.1);
-            }
+            try {
+                const actx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = actx.createOscillator();
+                const gain = actx.createGain();
+                osc.connect(gain); gain.connect(actx.destination);
+                if (type === 'beep') {
+                    osc.type = 'square'; osc.frequency.value = 880;
+                    gain.gain.setValueAtTime(0.05, actx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + 0.1);
+                    osc.start(); osc.stop(actx.currentTime + 0.1);
+                } else if (type === 'stop') {
+                    osc.type = 'triangle'; osc.frequency.value = 300;
+                    gain.gain.setValueAtTime(0.05, actx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + 0.1);
+                    osc.start(); osc.stop(actx.currentTime + 0.1);
+                }
+            } catch(e) {}
         }
-
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
-        ctx.textBaseline = "top";
 
         // Pyxelカラーパレット
         const PAL = ["#000000","#2b335f","#7e2072","#19959c","#8b4852","#395c98","#a9c1ff","#eeeeee","#d4186c","#d38441","#e9c46a","#3fd568","#4784da","#536000","#ff77a8","#ffccaa"];
@@ -133,6 +156,7 @@
 
         canvas.addEventListener('pointerdown', (e) => {
             const rect = canvas.getBoundingClientRect();
+            // 内部解像度に関係なく、160x120の座標系に直して判定するよ
             input.x = Math.floor((e.clientX - rect.left) / rect.width * 160);
             input.y = Math.floor((e.clientY - rect.top) / rect.height * 120);
             input.click = true;
@@ -144,10 +168,8 @@
             if(e.code==='ArrowUp') input.up=true; if(e.code==='ArrowDown') input.down=true;
             if(e.code==='ArrowLeft') input.left=true; if(e.code==='ArrowRight') input.right=true;
             if(e.code==='Space') input.space=true; if(e.code==='KeyA') input.a=true;
-            e.preventDefault();
         });
 
-        // ユーティリティ
         function randint(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
         function choice(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
@@ -545,21 +567,33 @@
                 }
             }
 
-            // BGM管理（前と同じ曲が流れるようにセット！）
+            // 🎵 BGMの切り替えロジック（Pyxel版と全く同じ条件にしたよ！）
             if (state !== prev_state) {
                 if ([STATE_TITLE, STATE_IDLE, STATE_WIN_PAUSE, STATE_LOSE, STATE_SLIP, STATE_ROULETTE, STATE_REVIVAL_WAIT, STATE_ROULETTE_STOP, STATE_RANKING].includes(state)) {
                     stopAllBGM();
-                } else if (state === STATE_SPIN_ALL) playBGM("bgm-normal");
-                else if (state === STATE_REACH) playBGM("bgm-reach");
-                else if (state === STATE_SP_CHANCE) stopAllBGM();
-                else if (state === STATE_SP_REACH) playBGM("bgm-sp-reach");
-                else if (state === STATE_SP9_EVOLVE) stopAllBGM();
-                else if (state === STATE_SP9_REACH) playBGM("bgm-sp-reach");
-                else if (state === STATE_PREMIUM_FLASH) stopAllBGM();
-                else if (state === STATE_ZENKAITEN) playBGM("bgm-super-fever");
+                } else if (state === STATE_SPIN_ALL) { playBGM("bgm-normal"); }
+                else if (state === STATE_REACH) { playBGM("bgm-reach"); }
+                else if (state === STATE_SP_CHANCE) { stopAllBGM(); }
+                else if (state === STATE_SP_REACH) {
+                    if (sp_type === 1) playBGM("bgm-sp1");
+                    else if (sp_type === 2) playBGM("bgm-sp2");
+                    else if (sp_type === 4) playBGM("bgm-sp4");
+                    else if (sp_type === 5) playBGM("bgm-sp5");
+                    else if (sp_type === 6 || sp_type === 8) playBGM("bgm-sp6");
+                    else if (sp_type === 7) playBGM("bgm-sp7");
+                    else playBGM("bgm-sp-other");
+                }
+                else if (state === STATE_SP9_EVOLVE) { stopAllBGM(); }
+                else if (state === STATE_SP9_REACH) { playBGM("bgm-sp2"); } // SP9はSP2と同じ曲にしてるよ！
+                else if (state === STATE_PREMIUM_FLASH) { stopAllBGM(); }
+                else if (state === STATE_ZENKAITEN) { playBGM("bgm-zenkaiten"); }
+                else if (state === STATE_PROMOTION) { stopAllBGM(); }
                 else if (state === STATE_WIN) {
-                    if (is_super_kakuken) playBGM("bgm-super-fever"); else playBGM("bgm-fever");
-                } else if (state === STATE_CLEAR) playBGM("bgm-super-fever");
+                    if (is_super_kakuken) playBGM("bgm-win-super");
+                    else playBGM("bgm-win");
+                } 
+                else if (state === STATE_CLEAR) { playBGM("bgm-clear"); }
+                
                 prev_state = state;
             }
 
@@ -610,18 +644,28 @@
             else { drawSprite(num, x, y, scale_val, 8); }
         }
 
+        // ✨ 超絶クッキリで文字を描画する専用の関数だよ！
         function pText(x, y, text, colIdx) {
-            ctx.fillStyle = PAL[colIdx]; ctx.font = "bold 8px monospace"; ctx.fillText(text, x, y);
+            ctx.save();
+            // 一旦キャンバス全体の物理的な解像度（640x480）に戻して描画するから全くボヤけないの！
+            ctx.setTransform(1, 0, 0, 1, 0, 0); 
+            ctx.fillStyle = PAL[colIdx];
+            ctx.font = `bold ${8 * SCALE}px 'DotGothic16', sans-serif`; 
+            ctx.fillText(text, x * SCALE, (y + 1) * SCALE); 
+            ctx.restore();
         }
 
         function draw() {
+            // スケールをPyxelの160x120サイズに戻して描画処理をするよ
+            ctx.setTransform(SCALE, 0, 0, SCALE, 0, 0);
+
             if (state === STATE_TITLE) {
                 ctx.fillStyle = PAL[1]; ctx.fillRect(0,0,160,120);
                 pText(40, 20, "PYXEL PACHINKO", timer % 20 < 10 ? 10 : 7);
                 pText(60, 28, "ULTIMATE", timer % 20 < 10 ? 10 : 7);
                 
                 let c0 = title_cursor === 0 ? 10 : 5;
-                ctx.strokeStyle = PAL[c0]; ctx.strokeRect(40, 45, 80, 15);
+                ctx.strokeStyle = PAL[c0]; ctx.lineWidth = 1; ctx.strokeRect(40, 45, 80, 15);
                 pText(58, 49, "NEW GAME", title_cursor === 0 ? 7 : 5);
                 
                 if (title_cursor === 0) pText(24, 65, use_limit ? "< LIMIT 50000: ON >" : "< LIMIT 50000: OFF >", timer % 10 < 5 ? 10 : 7);
@@ -705,6 +749,7 @@
                     let jump = Math.floor(Math.sin(timer*0.3)*5);
                     pText(bx + (bw - tStr.length*5)/2, by + 16 + jump, tStr, timer%6<3?bCol:7);
                 }
+                ctx.lineWidth = 1;
                 ctx.strokeStyle = PAL[state===STATE_ROULETTE?13:(timer%8<4?10:13)]; ctx.strokeRect(bx-2, by-2, bw+4, bh+4);
             }
             else if ([STATE_LOSE, STATE_REVIVAL_WAIT].includes(state)) pText(70, 22, "END", 13);
@@ -724,13 +769,15 @@
                 pText(2, 111, `SPIN:${spins}`, 7); pText(45, 111, `WINS:${wins}`, 10); pText(85, 111, `PT:${score}`, 11);
                 ctx.fillStyle = PAL[is_auto?10:5]; ctx.fillRect(125, 110, 33, 9);
                 pText(131, 111, "AUTO", is_auto?0:7);
-                if (is_auto && timer%20<10) { ctx.strokeStyle = PAL[7]; ctx.strokeRect(125, 110, 33, 9); }
+                if (is_auto && timer%20<10) { ctx.lineWidth = 1; ctx.strokeStyle = PAL[7]; ctx.strokeRect(125, 110, 33, 9); }
             }
 
             if (![STATE_ROULETTE, STATE_ROULETTE_STOP, STATE_CLEAR, STATE_RANKING].includes(state)) {
                 let col1 = timer%4<2 ? 10 : 9, col2 = timer%4<2 ? 11 : 3;
                 let isR1 = (targets[0]===targets[4] && state>=STATE_REACH) || [STATE_SP9_EVOLVE, STATE_SP9_REACH].includes(state);
                 let isR2 = (targets[1]===targets[3] && state>=STATE_REACH) || [STATE_SP9_EVOLVE, STATE_SP9_REACH].includes(state);
+                
+                ctx.lineWidth = 1;
                 ctx.strokeStyle = PAL[(isR1 || state===STATE_WIN) ? col1 : 13]; ctx.beginPath(); ctx.moveTo(36,32); ctx.lineTo(124,84); ctx.stroke();
                 ctx.strokeStyle = PAL[(isR2 || state===STATE_WIN) ? col2 : 13]; ctx.beginPath(); ctx.moveTo(124,32); ctx.lineTo(36,84); ctx.stroke();
 
@@ -758,6 +805,7 @@
                     ctx.restore();
                     
                     let bCol = ([STATE_WIN, STATE_ZENKAITEN, STATE_REVIVAL, STATE_PROMOTION].includes(state) && timer%16<8) ? 10 : 13;
+                    ctx.lineWidth = 1;
                     ctx.strokeStyle = PAL[bCol]; ctx.strokeRect(x-2, yBase-2, 36, 52);
                 }
             }
