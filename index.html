@@ -1,5 +1,770 @@
-<!doctype html>
-<script src="https://cdn.jsdelivr.net/gh/kitao/pyxel@2.9.5/wasm/pyxel.js"></script>
-<script>
-launchPyxel({ command: "play", name: "P.pyxapp", gamepad: "enabled", base64: "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" });
-</script>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HTML5 Pachinko Ultimate</title>
+    <style>
+        body {
+            background-color: #111; color: #eee; text-align: center;
+            margin: 0; padding: 0; font-family: sans-serif;
+            touch-action: manipulation; /* スマホのズーム防止 */
+        }
+        canvas {
+            background-color: #2b335f; width: 100%; max-width: 640px;
+            aspect-ratio: 4 / 3; border: 4px solid #395c98;
+            image-rendering: pixelated; box-shadow: 0 0 20px rgba(71, 132, 218, 0.3);
+            margin-top: 10px;
+        }
+        #audio-panel {
+            margin: 15px auto; background: #222; padding: 10px;
+            border-radius: 8px; font-size: 14px; max-width: 640px; text-align: left;
+        }
+        .bgm-item { margin-bottom: 5px; }
+        audio { height: 25px; width: 100%; }
+    </style>
+</head>
+<body>
+
+    <canvas id="gameCanvas" width="160" height="120"></canvas>
+
+    <div id="audio-panel">
+        <p style="text-align:center; font-weight:bold; margin-top:0;">🎵 オリジナルBGM設定</p>
+        <p style="font-size:12px; color:#aaa; text-align:center;">以下の名前でmp3を用意してGitHubに置くだけで自動で流れるよ！</p>
+        
+        <div class="bgm-item"><small>① bgm-normal.mp3 (通常時)</small>
+            <audio id="bgm-normal" src="bgm-normal.mp3" loop controls></audio></div>
+        <div class="bgm-item"><small>② bgm-reach.mp3 (ノーマルリーチ)</small>
+            <audio id="bgm-reach" src="bgm-reach.mp3" loop controls></audio></div>
+        <div class="bgm-item"><small>③ bgm-sp-reach.mp3 (SPリーチ/REVERSE RUSH)</small>
+            <audio id="bgm-sp-reach" src="bgm-sp-reach.mp3" loop controls></audio></div>
+        <div class="bgm-item"><small>④ bgm-fever.mp3 (確変大当たり中)</small>
+            <audio id="bgm-fever" src="bgm-fever.mp3" loop controls></audio></div>
+        <div class="bgm-item"><small>⑤ bgm-super-fever.mp3 (SUPER確変/全回転)</small>
+            <audio id="bgm-super-fever" src="bgm-super-fever.mp3" loop controls></audio></div>
+    </div>
+
+    <script>
+        // --- BGM管理システム ---
+        const bgms = ["bgm-normal", "bgm-reach", "bgm-sp-reach", "bgm-fever", "bgm-super-fever"];
+        function playBGM(id) {
+            bgms.forEach(bgmId => {
+                let a = document.getElementById(bgmId);
+                if (a) {
+                    if (bgmId === id) { a.play().catch(()=>{}); } 
+                    else { a.pause(); }
+                }
+            });
+        }
+        function stopAllBGM() { playBGM(null); }
+
+        // --- 簡易SE（効果音）システム ---
+        function playSE(type) {
+            if(!window.AudioContext && !window.webkitAudioContext) return;
+            const actx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = actx.createOscillator();
+            const gain = actx.createGain();
+            osc.connect(gain); gain.connect(actx.destination);
+            if (type === 'beep') {
+                osc.type = 'square'; osc.frequency.value = 440;
+                gain.gain.setValueAtTime(0.05, actx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + 0.1);
+                osc.start(); osc.stop(actx.currentTime + 0.1);
+            } else if (type === 'stop') {
+                osc.type = 'triangle'; osc.frequency.value = 200;
+                gain.gain.setValueAtTime(0.05, actx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + 0.1);
+                osc.start(); osc.stop(actx.currentTime + 0.1);
+            }
+        }
+
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        ctx.textBaseline = "top";
+
+        // Pyxelカラーパレット
+        const PAL = ["#000000","#2b335f","#7e2072","#19959c","#8b4852","#395c98","#a9c1ff","#eeeeee","#d4186c","#d38441","#e9c46a","#3fd568","#4784da","#536000","#ff77a8","#ffccaa"];
+
+        // 状態定義
+        const STATE_IDLE = 0, STATE_SPIN_ALL = 1, STATE_SPIN_OUTER = 2, STATE_SLIP = 3, STATE_SPIN_CENTER = 4, 
+              STATE_REACH = 5, STATE_SP_CHANCE = 6, STATE_SP_REACH = 7, STATE_WIN_PAUSE = 8, STATE_WIN = 9, 
+              STATE_ROULETTE = 10, STATE_LOSE = 11, STATE_PREMIUM_FLASH = 12, STATE_ZENKAITEN = 13, 
+              STATE_REVIVAL_WAIT = 14, STATE_REVIVAL = 15, STATE_ROULETTE_STOP = 16, STATE_CLEAR = 17,    
+              STATE_RANKING = 18, STATE_PROMOTION = 19, STATE_TITLE = 20, STATE_SP9_EVOLVE = 21, STATE_SP9_REACH = 22;
+
+        let state = STATE_TITLE;
+        let prev_state = STATE_TITLE;
+        let timer = 0, spins = 0, total_spins = 0, wins = 0, score = 10000, use_limit = true;
+        let is_kakuken = false, is_super_kakuken = false, st_count = 0, renchan = 0, won_pt = 0, is_all_five = false;
+        let is_jackpot = false, is_premium = false, premium_type = 0, is_slip = false, slip_target = -1;
+        let is_revival = false, is_double_reach = false, yokoku_color = 0, sp_type = 0;
+        let sp9_final_targets = [0,0,0,0,0], is_auto = false, force_promotion = false;
+        let is_lucky_reach = false, is_chance_text = false, guarantee_kakuken = false;
+        
+        let force_mode = 0;
+        const force_names = ["OFF", "FORCE: HIT [ALL 5]", "FORCE: HIT [7] (SUPER)", "FORCE: HIT [3] (KAKUKEN)", "FORCE: HIT [2] (ST)", "FORCE: PREM [ZENKAITEN]", "FORCE: PREM [ALL 7]", "FORCE: HIT [REVIVAL]", "FORCE: HIT [DOUBLE]", "FORCE: MISS [SLIP]", "FORCE: MISS [SP4 SLOW]", "FORCE: MISS [SP5]", "FORCE: MISS [SP6 REV]", "FORCE: MISS [DBL SP7]", "FORCE: HIT [PROMOTION]", "FORCE: HIT [SP9 REV]"];
+        
+        let ranking = [];
+        let has_save = false;
+        let title_cursor = 0;
+
+        // セーブデータロード
+        try {
+            let saved = localStorage.getItem("pachinko_save");
+            if (saved) { has_save = true; title_cursor = 1; }
+        } catch(e){}
+
+        const roulette_base_data = [[300, 6], [750, 11], [1200, 14], [1500, 8], [3000, 9], [7500, 10]];
+        const roulette_super_data = [[3000, 9], [4500, 10], [3000, 9], [4500, 10], [3000, 9], [7500, 10]];
+        let active_roulette_data = roulette_base_data;
+        let roulette_idx = 0, roulette_y = 0.0;
+
+        let reel_y = [0.0, 0.0, 0.0, 0.0, 0.0];
+        let reels = [0, 1, 2, 3, 4];
+        let targets = [0, 0, 0, 0, 0];
+        let stopped = [true, true, true, true, true];
+        let stopping = [false, false, false, false, false];
+        let reach_steps = 0;
+        const reel_coords = [[20, 8], [108, 8], [64, 34], [20, 60], [108, 60]];
+
+        // 入力処理
+        let input = { click: false, x: 0, y: 0, up: false, down: false, left: false, right: false, space: false, a: false };
+        let is_auto_btn_clicked = false;
+
+        canvas.addEventListener('pointerdown', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            input.x = Math.floor((e.clientX - rect.left) / rect.width * 160);
+            input.y = Math.floor((e.clientY - rect.top) / rect.height * 120);
+            input.click = true;
+            // iOSの音声再生ブロックを解除するための空再生
+            bgms.forEach(id => { let a = document.getElementById(id); if(a) a.play().then(()=>a.pause()).catch(()=>{}); });
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if(e.code==='ArrowUp') input.up=true; if(e.code==='ArrowDown') input.down=true;
+            if(e.code==='ArrowLeft') input.left=true; if(e.code==='ArrowRight') input.right=true;
+            if(e.code==='Space') input.space=true; if(e.code==='KeyA') input.a=true;
+            e.preventDefault();
+        });
+
+        // ユーティリティ
+        function randint(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+        function choice(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+        function save_game_data() {
+            let data = { score, spins, total_spins, wins, use_limit, is_kakuken, is_super_kakuken, st_count, renchan };
+            localStorage.setItem("pachinko_save", JSON.stringify(data));
+        }
+
+        function load_game_data() {
+            let saved = localStorage.getItem("pachinko_save");
+            if (saved) {
+                let data = JSON.parse(saved);
+                score=data.score||10000; spins=data.spins||0; total_spins=data.total_spins||0; wins=data.wins||0;
+                use_limit=data.use_limit!==false; is_kakuken=data.is_kakuken||false; is_super_kakuken=data.is_super_kakuken||false;
+                st_count=data.st_count||0; renchan=data.renchan||0;
+            }
+        }
+
+        function get_yokoku_color(is_hit) {
+            let r = randint(1, 100);
+            if (is_hit) { return r<=5 ? 12 : r<=15 ? 11 : r<=45 ? 8 : 10; } 
+            else { return r<=50 ? 12 : r<=80 ? 11 : r<=99 ? 8 : 10; }
+        }
+
+        function get_sp_type(is_hit) {
+            let r = randint(1, 1000);
+            if(is_hit){
+                if(r<=50)return 0; else if(r<=100)return 1; else if(r<=200)return 2; else if(r<=350)return 4;
+                else if(r<=450)return 5; else if(r<=600)return 8; else if(r<=700)return 6; else if(r<=850)return 9; else return 3;
+            } else {
+                if(r<=850)return 0; else if(r<=950)return 1; else if(r<=975)return 2; else if(r<=985)return 5;
+                else if(r<=995)return 4; else if(r<=997)return 8; else if(r<=999)return 9; else return 6;
+            }
+        }
+
+        function setup_win() {
+            is_auto = false; wins++; spins = 0; renchan++;
+            let t = targets[2];
+            if (t === 6) { is_super_kakuken=true; is_kakuken=true; active_roulette_data=roulette_super_data; st_count=0; }
+            else if (t % 2 === 0) { is_super_kakuken=false; is_kakuken=true; active_roulette_data=roulette_base_data; st_count=0; }
+            else { is_super_kakuken=false; is_kakuken=false; active_roulette_data=roulette_base_data; st_count=5; }
+            state = STATE_WIN; timer = 0;
+        }
+
+        function update() {
+            timer++;
+            let start_game = false;
+            is_auto_btn_clicked = false;
+
+            if (state === STATE_TITLE) {
+                if (input.down || input.up) { if (has_save) { title_cursor = 1 - title_cursor; playSE('beep'); } }
+                if (title_cursor === 0 && (input.left || input.right)) { use_limit = !use_limit; playSE('beep'); }
+                if (input.click) {
+                    if (input.x>=40 && input.x<=120 && input.y>=45 && input.y<=60) {
+                        if(title_cursor===0) start_game=true; title_cursor=0;
+                    } else if (input.x>=32 && input.x<=128 && input.y>=62 && input.y<=75 && title_cursor===0) {
+                        use_limit = !use_limit; playSE('beep');
+                    } else if (input.x>=40 && input.x<=120 && input.y>=80 && input.y<=95 && has_save) {
+                        if(title_cursor===1) start_game=true; title_cursor=1;
+                    }
+                }
+                if (input.space || start_game) {
+                    if (title_cursor === 0) {
+                        score=10000; spins=0; total_spins=0; wins=0; renchan=0; is_kakuken=false; is_super_kakuken=false; st_count=0;
+                        save_game_data();
+                    } else { load_game_data(); }
+                    state = STATE_IDLE; playSE('beep');
+                }
+            }
+
+            if (state !== STATE_TITLE) {
+                if (input.click && input.x>=125 && input.x<=158 && input.y>=109 && input.y<=119) {
+                    is_auto_btn_clicked = true; is_auto = !is_auto;
+                }
+                if (input.a) is_auto = !is_auto;
+            }
+
+            if (state === STATE_IDLE) {
+                if (input.up) { force_mode = (force_mode - 1 + force_names.length) % force_names.length; playSE('beep'); }
+                if (input.down) { force_mode = (force_mode + 1) % force_names.length; playSE('beep'); }
+            }
+
+            let ODDS = [0, 2, 4, 6, 8];
+            let step_val = is_super_kakuken ? 2 : 1;
+            let speed = [0.0, 0.0, 0.0, 0.0, 0.0];
+
+            if (state === STATE_SPIN_ALL) speed = [1.0, 1.0, 1.0, 1.0, 1.0];
+            else if (state === STATE_SPIN_OUTER) speed = [0.0, 0.0, 1.0, 1.0, 1.0];
+            else if (state === STATE_SLIP) { if (slip_target !== -1) speed[slip_target] = 0.5; }
+            else if (state === STATE_SPIN_CENTER) speed[2] = 1.0;
+            else if (state === STATE_REACH) speed[2] = 0.5;
+            else if (state === STATE_SP_CHANCE) speed[2] = 0.25;
+            else if (state === STATE_ZENKAITEN) speed = [0.25, 0.25, 0.25, 0.25, 0.25];
+            else if (state === STATE_REVIVAL) speed[2] = 1.0;
+            else if (state === STATE_PROMOTION) speed = [1.0, 1.0, 1.0, 1.0, 1.0];
+            else if (state === STATE_SP9_EVOLVE) speed = [0.0, 0.0, 0.0, 0.0, 0.0];
+            else if (state === STATE_SP9_REACH) speed = [0.5, 0.5, 0.0, 0.5, 0.5];
+            else if (state === STATE_SP_REACH) {
+                if (sp_type === 4) {
+                    let dist = (targets[2] - reels[2] + 10) % 10;
+                    if (dist === 0 || dist === step_val || dist === (10 - step_val) % 10) speed[2] = 0.1; else speed[2] = 1.5;
+                } else if (sp_type === 5) speed[2] = 0.25;
+                else if (sp_type === 6 || sp_type === 8) speed[2] = 0.5;
+                else if (sp_type === 7) {
+                    let dist1 = (targets[0] - reels[2] + 10) % 10, dist2 = (targets[1] - reels[2] + 10) % 10;
+                    let sd = [0, step_val, (10 - step_val) % 10];
+                    if (sd.includes(dist1) || sd.includes(dist2)) speed[2] = 0.1; else speed[2] = 1.5;
+                } else speed[2] = 0.25;
+            }
+
+            for (let i = 0; i < 5; i++) {
+                if (!stopped[i]) {
+                    let is_reverse = (state === STATE_SP_REACH && (sp_type === 5 || sp_type === 6) && i === 2);
+                    if (is_reverse) {
+                        reel_y[i] -= speed[i];
+                        if (reel_y[i] <= 0.0) {
+                            if (stopping[i] && reels[i] === targets[i]) {
+                                reel_y[i] = 0.0; stopped[i] = true; stopping[i] = false; playSE('stop');
+                            } else {
+                                reel_y[i] += 12.0; reels[i] = (reels[i] - step_val + 10) % 10;
+                                if (i === 2) reach_steps++;
+                            }
+                        }
+                    } else {
+                        reel_y[i] += speed[i];
+                        if (reel_y[i] >= 12.0) {
+                            reel_y[i] -= 12.0; reels[i] = (reels[i] + step_val) % 10;
+                            if (i === 2 && [STATE_REACH, STATE_SP_REACH, STATE_ZENKAITEN].includes(state)) reach_steps++;
+                            else if (i === 0 && state === STATE_SP9_REACH) reach_steps++;
+                            if (state === STATE_PROMOTION && timer > 90) stopping[i] = true;
+                            if (stopping[i] && reels[i] === targets[i]) {
+                                reel_y[i] = 0.0; stopped[i] = true; stopping[i] = false; playSE('stop');
+                            }
+                        }
+                    }
+                }
+            }
+
+            let do_spin = false;
+            if (state === STATE_IDLE) {
+                if (is_auto) do_spin = true;
+                else if (input.space) do_spin = true;
+                else if (input.click && !is_auto_btn_clicked) do_spin = true;
+
+                if (do_spin) {
+                    let is_free_spin = is_kakuken || is_super_kakuken;
+                    if (!is_free_spin) {
+                        if (score < 10) { do_spin = false; is_auto = false; } 
+                        else { score -= 10; save_game_data(); }
+                    }
+                }
+            }
+
+            if (state === STATE_IDLE && do_spin) {
+                let prob = (is_kakuken || st_count > 0) ? 200 : 20;
+                if (!is_kakuken && st_count > 0) { st_count--; if (st_count === 0) renchan = 0; }
+                
+                spins++; total_spins++; timer = 0;
+                stopped = [false, false, false, false, false]; stopping = [false, false, false, false, false];
+                reach_steps = 0; yokoku_color = 0; is_slip = false; slip_target = -1; is_revival = false;
+                premium_type = 0; force_promotion = false; is_all_five = false; is_double_reach = false;
+                sp_type = 0; is_lucky_reach = false; is_chance_text = false;
+                
+                let av_targets = is_super_kakuken ? ODDS : [0,1,2,3,4,5,6,7,8,9];
+                if (is_super_kakuken) { for (let i=0; i<5; i++) { if (reels[i]%2 !== 0) reels[i] = (reels[i]+1)%10; } }
+                
+                if (guarantee_kakuken) {
+                    guarantee_kakuken = false; is_jackpot = true; force_mode = 0;
+                    let t = choice([0, 2, 4, 6, 8]); targets = [t,t,t,t,t];
+                    if (randint(1,100) <= 40) {
+                        is_double_reach = true; let t2 = choice(av_targets.filter(x=>x!==t));
+                        if(randint(0,1)===0){ targets[1]=t2; targets[3]=t2; } else { targets[0]=t2; targets[4]=t2; }
+                        sp_type = 7;
+                    } else {
+                        if(randint(0,1)===0){ targets[1]=choice(av_targets.filter(x=>x!==t)); targets[3]=choice(av_targets.filter(x=>x!==targets[1]&&x!==t)); }
+                        else { targets[0]=choice(av_targets.filter(x=>x!==t)); targets[4]=choice(av_targets.filter(x=>x!==targets[0]&&x!==t)); }
+                        sp_type = get_sp_type(true);
+                    }
+                } else if (force_mode === 0) {
+                    is_jackpot = (randint(1, 1000) <= prob);
+                    is_premium = (is_jackpot && randint(1, 100) <= 2);
+                    premium_type = is_premium ? choice([1, 2, 3]) : 0;
+                    
+                    if (is_jackpot) {
+                        let t = choice(av_targets); targets = [t,t,t,t,t];
+                        if (!is_premium && randint(1, 100) > 20) {
+                            if (randint(1, 100) <= 40) {
+                                is_double_reach = true; let t2 = choice(av_targets.filter(x=>x!==t));
+                                if(randint(0,1)===0){ targets[1]=t2; targets[3]=t2; } else { targets[0]=t2; targets[4]=t2; }
+                                sp_type = 7;
+                            } else {
+                                if(randint(0,1)===0){ targets[1]=choice(av_targets.filter(x=>x!==t)); targets[3]=choice(av_targets.filter(x=>x!==targets[1]&&x!==t)); }
+                                else { targets[0]=choice(av_targets.filter(x=>x!==t)); targets[4]=choice(av_targets.filter(x=>x!==targets[0]&&x!==t)); }
+                                sp_type = get_sp_type(true);
+                            }
+                        } else { sp_type = get_sp_type(true); }
+                        
+                        if (!is_premium && randint(0, 4) === 0) { is_revival = true; targets[2] = (targets[2] + choice([-step_val, step_val])+10)%10; }
+                        if (randint(0, 1) === 0) yokoku_color = get_yokoku_color(true);
+                    } else {
+                        targets = [choice(av_targets), choice(av_targets), choice(av_targets), choice(av_targets), choice(av_targets)];
+                        while(targets[0]===targets[2] && targets[2]===targets[4]) targets[2] = choice(av_targets);
+                        while(targets[1]===targets[2] && targets[2]===targets[3]) targets[2] = choice(av_targets);
+                        
+                        if (randint(0, 4) === 0) {
+                            if (randint(1, 100) <= 5) {
+                                is_double_reach = true; targets[4] = targets[0]; targets[3] = targets[1];
+                                while(targets[2]===targets[0] || targets[2]===targets[1]) targets[2] = choice(av_targets);
+                                sp_type = 7;
+                            } else {
+                                if(randint(0,1)===0){ targets[4]=targets[0]; while(targets[2]===targets[0])targets[2]=choice(av_targets); }
+                                else { targets[3]=targets[1]; while(targets[2]===targets[1])targets[2]=choice(av_targets); }
+                                sp_type = get_sp_type(false);
+                                if (sp_type === 4) { targets[2] = ((targets[0]===targets[4]?targets[0]:targets[1]) + choice([-step_val, step_val])+10)%10; }
+                                if (randint(0, 3) === 0) {
+                                    is_slip = true;
+                                    if(targets[4]===targets[0]){ slip_target = 4; targets[4] = (targets[4]-step_val+10)%10; }
+                                    else { slip_target = 3; targets[3] = (targets[3]-step_val+10)%10; }
+                                }
+                            }
+                            if (randint(0, 2) === 0) yokoku_color = get_yokoku_color(false);
+                        }
+                    }
+                } else {
+                    if(force_mode===1){is_jackpot=true;is_premium=false;targets=[6,6,6,6,6];sp_type=3;yokoku_color=10;}
+                    else if(force_mode===2){is_jackpot=true;is_premium=false;targets=[6,1,6,2,6];sp_type=3;yokoku_color=10;}
+                    else if(force_mode===3){is_jackpot=true;is_premium=false;targets=[2,1,2,4,2];sp_type=2;yokoku_color=8;}
+                    else if(force_mode===4){is_jackpot=true;is_premium=false;targets=[1,3,1,5,1];sp_type=1;yokoku_color=12;}
+                    else if(force_mode===5){is_jackpot=true;is_premium=true;premium_type=1;targets=[6,6,6,6,6];yokoku_color=10;}
+                    else if(force_mode===6){is_jackpot=true;is_premium=true;premium_type=2;targets=[6,6,6,6,6];sp_type=3;yokoku_color=10;}
+                    else if(force_mode===7){is_jackpot=true;is_premium=false;targets=[6,1,7,2,6];sp_type=2;is_revival=true;yokoku_color=8;}
+                    else if(force_mode===8){is_jackpot=true;is_premium=false;targets=[6,1,6,1,6];sp_type=7;is_double_reach=true;yokoku_color=10;}
+                    else if(force_mode===9){is_jackpot=false;is_premium=false;targets=[2,8,5,9,1];is_slip=true;slip_target=4;sp_type=2;yokoku_color=11;}
+                    else if(force_mode===10){is_jackpot=false;is_premium=false;targets=[2,1,3,4,2];sp_type=4;yokoku_color=8;}
+                    else if(force_mode===11){is_jackpot=false;is_premium=false;targets=[2,1,3,4,2];sp_type=5;yokoku_color=8;}
+                    else if(force_mode===12){is_jackpot=false;is_premium=false;targets=[2,1,3,4,2];sp_type=6;yokoku_color=10;}
+                    else if(force_mode===13){is_jackpot=false;is_premium=false;targets=[6,1,2,1,6];sp_type=7;is_double_reach=true;yokoku_color=10;}
+                    else if(force_mode===14){is_jackpot=true;is_premium=false;targets=[1,1,1,1,1];sp_type=2;yokoku_color=8;force_promotion=true;}
+                    else if(force_mode===15){is_jackpot=true;is_premium=false;targets=[4,4,4,4,4];sp_type=9;yokoku_color=12;}
+                }
+
+                if (sp_type === 9) {
+                    sp9_final_targets = [...targets]; is_double_reach = false;
+                    let fake_target = choice(av_targets.filter(x=>x!==sp9_final_targets[2]));
+                    targets[0] = targets[4] = fake_target;
+                    targets[1] = choice(av_targets.filter(x=>x!==fake_target));
+                    targets[3] = choice(av_targets.filter(x=>x!==targets[1]&&x!==fake_target));
+                    targets[2] = sp9_final_targets[2];
+                }
+
+                if(targets[0]===targets[1] && targets[1]===targets[2] && targets[2]===targets[3] && targets[3]===targets[4]) is_all_five=true;
+                if(is_jackpot && randint(1,100)<=5) is_lucky_reach=true;
+                
+                let base_prob = (is_kakuken || st_count > 0) ? 200 : 20;
+                let p_chance_hit = 0.20;
+                let p_chance_miss = p_chance_hit * base_prob / (1000 - base_prob);
+                is_chance_text = (Math.random() <= (is_jackpot ? p_chance_hit : p_chance_miss));
+
+                if (premium_type === 1) { state = STATE_PREMIUM_FLASH; reels = [6,6,6,6,6]; }
+                else { state = STATE_SPIN_ALL; }
+            }
+            else if (state === STATE_PREMIUM_FLASH) {
+                if (timer > 120) { state = STATE_ZENKAITEN; timer = 0; reach_steps = 0; }
+            }
+            else if (state === STATE_ZENKAITEN) {
+                if (reach_steps >= 30) stopping = [true,true,true,true,true];
+                if (stopped.every(v=>v)) { state = STATE_WIN_PAUSE; timer = 0; }
+            }
+            else if (state === STATE_SPIN_ALL) {
+                if (timer > 40) { stopping[0] = true; stopping[1] = true; }
+                if (stopped[0] && stopped[1]) { state = STATE_SPIN_OUTER; timer = 0; }
+            }
+            else if (state === STATE_SPIN_OUTER) {
+                if (timer > 40) { stopping[3] = true; stopping[4] = true; }
+                if (stopped[3] && stopped[4]) {
+                    if (is_slip) state = STATE_SLIP;
+                    else if (targets[0]===targets[4] || targets[1]===targets[3]) state = STATE_REACH;
+                    else state = STATE_SPIN_CENTER;
+                    timer = 0;
+                }
+            }
+            else if (state === STATE_SLIP) {
+                if (timer === 30) { playSE('beep'); targets[slip_target] = (targets[slip_target]+step_val)%10; stopped[slip_target]=false; stopping[slip_target]=true; }
+                if (timer > 30 && stopped[slip_target]) {
+                    if (targets[0]===targets[4] || targets[1]===targets[3]) state = STATE_REACH; else state = STATE_SPIN_CENTER;
+                    timer = 0;
+                }
+            }
+            else if (state === STATE_SPIN_CENTER) {
+                if (timer > 30) stopping[2] = true;
+                if (stopped[2]) { state = STATE_LOSE; timer = 0; }
+            }
+            else if (state === STATE_REACH) {
+                if (sp_type === 0 || sp_type === 9) {
+                    if (reach_steps >= 20 && !stopping[2]) stopping[2] = true;
+                } else {
+                    if (reach_steps >= 20 && !stopping[2]) { state = STATE_SP_CHANCE; timer = 0; }
+                }
+                if (stopped[2]) {
+                    if (sp_type === 9) { state = STATE_SP9_EVOLVE; timer = 0; }
+                    else {
+                        if((targets[0]===targets[4]&&targets[2]===targets[0]) || (targets[1]===targets[3]&&targets[2]===targets[1])) state = STATE_WIN_PAUSE;
+                        else { if(is_revival) state=STATE_REVIVAL_WAIT; else state=STATE_LOSE; }
+                        timer = 0;
+                    }
+                }
+            }
+            else if (state === STATE_SP_CHANCE) {
+                if (timer > 90) { state = STATE_SP_REACH; timer = 0; reach_steps = 0; }
+            }
+            else if (state === STATE_SP_REACH) {
+                let limit = 10;
+                if(sp_type===4)limit=20; else if(sp_type===5)limit=15; else if(sp_type===6)limit=25; else if(sp_type===8)limit=25; else if(sp_type===7)limit=30;
+                if (reach_steps >= limit && !stopping[2]) stopping[2] = true;
+                if (stopped[2]) {
+                    if((targets[0]===targets[4]&&targets[2]===targets[0]) || (targets[1]===targets[3]&&targets[2]===targets[1])) state = STATE_WIN_PAUSE;
+                    else { if(is_revival) state=STATE_REVIVAL_WAIT; else state=STATE_LOSE; }
+                    timer = 0;
+                }
+            }
+            else if (state === STATE_SP9_EVOLVE) {
+                if (timer > 60) {
+                    state = STATE_SP9_REACH; timer = 0; reach_steps = 0; targets = [...sp9_final_targets];
+                    stopped[0]=stopped[1]=stopped[3]=stopped[4]=false; stopping[0]=stopping[1]=stopping[3]=stopping[4]=false;
+                }
+            }
+            else if (state === STATE_SP9_REACH) {
+                if (reach_steps >= 30 && !stopping[0]) stopping[0]=stopping[1]=stopping[3]=stopping[4]=true;
+                if (stopped.every(v=>v)) {
+                    if((targets[0]===targets[4]&&targets[2]===targets[0]) || (targets[1]===targets[3]&&targets[2]===targets[1])) state = STATE_WIN_PAUSE;
+                    else { if(is_revival) state=STATE_REVIVAL_WAIT; else state=STATE_LOSE; }
+                    timer = 0;
+                }
+            }
+            else if (state === STATE_REVIVAL_WAIT) {
+                if (timer > 60) {
+                    state = STATE_REVIVAL;
+                    if(targets[0]===targets[4] && targets[1]===targets[3]) targets[2] = choice([targets[0], targets[1]]);
+                    else if(targets[0]===targets[4]) targets[2]=targets[0]; else targets[2]=targets[1];
+                    stopped[2]=false; stopping[2]=true; timer=0;
+                }
+            }
+            else if (state === STATE_REVIVAL) { if (stopped[2]) { state = STATE_WIN_PAUSE; timer = 0; } }
+            else if (state === STATE_WIN_PAUSE) {
+                if (timer > 60) {
+                    let is_super_prom = is_super_kakuken && [0,2,4,8].includes(targets[2]) && randint(1,100)<=10;
+                    let is_norm_prom = [1,3,5,7,9].includes(targets[2]) && randint(1,100)<=20;
+                    if (is_super_prom || is_norm_prom || force_promotion) {
+                        state = STATE_PROMOTION; timer = 0;
+                        let t = is_super_prom ? 6 : choice([0,2,4,6,8]); targets = [t,t,t,t,t];
+                        stopped=[false,false,false,false,false]; stopping=[false,false,false,false,false]; is_all_five=true;
+                    } else { setup_win(); }
+                }
+            }
+            else if (state === STATE_PROMOTION) { if (stopped.every(v=>v)) setup_win(); }
+            else if (state === STATE_WIN) {
+                if (timer > 180) { state = STATE_ROULETTE; timer = 0; roulette_y = 0.0; }
+            }
+            else if (state === STATE_ROULETTE) {
+                roulette_y += 2.0;
+                if (roulette_y >= 20.0) { roulette_y -= 20.0; roulette_idx = (roulette_idx - 1 + active_roulette_data.length) % active_roulette_data.length; }
+                let stop_pressed = input.space || (input.click && !is_auto_btn_clicked);
+                if ((timer > 60 && stop_pressed) || timer >= 240) {
+                    state = STATE_ROULETTE_STOP; timer = 0; roulette_y = 0.0;
+                    let pt = active_roulette_data[roulette_idx][0];
+                    if(is_all_five) won_pt = pt * 2; else won_pt = pt;
+                    score += won_pt; save_game_data();
+                }
+            }
+            else if (state === STATE_ROULETTE_STOP) {
+                if (timer > 120) {
+                    let pt = active_roulette_data[roulette_idx][0];
+                    if (pt === 7500) guarantee_kakuken = true;
+                    if (use_limit && score >= 50000) { state = STATE_CLEAR; } else { state = STATE_LOSE; }
+                    timer = 0;
+                }
+            }
+            else if (state === STATE_CLEAR) {
+                let stop_pressed = input.space || (input.click && !is_auto_btn_clicked);
+                if (timer > 60 && stop_pressed) state = STATE_RANKING;
+            }
+            else if (state === STATE_RANKING) {
+                let stop_pressed = input.space || (input.click && !is_auto_btn_clicked);
+                if (stop_pressed) {
+                    has_save = false; title_cursor = 0; state = STATE_TITLE;
+                    score=10000; spins=0; total_spins=0; wins=0; renchan=0; is_kakuken=false; is_super_kakuken=false; st_count=0; is_auto=false;
+                    save_game_data();
+                }
+            }
+            else if (state === STATE_LOSE) {
+                let stop_pressed = input.space || (input.click && !is_auto_btn_clicked);
+                if (stop_pressed || (is_auto && timer > 45)) {
+                    if (!is_kakuken && st_count === 0) renchan = 0;
+                    state = STATE_IDLE; timer = 0;
+                }
+            }
+
+            // BGM管理（前と同じ曲が流れるようにセット！）
+            if (state !== prev_state) {
+                if ([STATE_TITLE, STATE_IDLE, STATE_WIN_PAUSE, STATE_LOSE, STATE_SLIP, STATE_ROULETTE, STATE_REVIVAL_WAIT, STATE_ROULETTE_STOP, STATE_RANKING].includes(state)) {
+                    stopAllBGM();
+                } else if (state === STATE_SPIN_ALL) playBGM("bgm-normal");
+                else if (state === STATE_REACH) playBGM("bgm-reach");
+                else if (state === STATE_SP_CHANCE) stopAllBGM();
+                else if (state === STATE_SP_REACH) playBGM("bgm-sp-reach");
+                else if (state === STATE_SP9_EVOLVE) stopAllBGM();
+                else if (state === STATE_SP9_REACH) playBGM("bgm-sp-reach");
+                else if (state === STATE_PREMIUM_FLASH) stopAllBGM();
+                else if (state === STATE_ZENKAITEN) playBGM("bgm-super-fever");
+                else if (state === STATE_WIN) {
+                    if (is_super_kakuken) playBGM("bgm-super-fever"); else playBGM("bgm-fever");
+                } else if (state === STATE_CLEAR) playBGM("bgm-super-fever");
+                prev_state = state;
+            }
+
+            // 入力リセット
+            input.click = false; input.up = false; input.down = false; input.left = false; input.right = false; input.space = false; input.a = false;
+        }
+
+        // ピクセル文字のデータ
+        const imgData = [
+            "00077000007777000077770000007700077777700077770007777770007777000077770000077000",
+            "00777000077007700770077000077700077000000770077007700770077007700770077000777700",
+            "07777000077007700000077000777700077000000770000000000770077007700770077007700770",
+            "00077000000007700000077007707700077777000770000000000770077007700770077007700770",
+            "00077000000077000007770007707700000007700777770000007700007777000770077007700770",
+            "00077000000770000000077007777770000007700770077000007700077007700077777007700770",
+            "00077000007700000000077000007700000007700770077000077000077007700000077007700770",
+            "00077000077000000000077000007700000007700770077000077000077007700000077007700770",
+            "00077000077777700770077000007700077007700770077000077000077007700770077000777700",
+            "07777700077777700077770000007700007777000077770000077000007777000077770000077000",
+            "00000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "00000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        ];
+
+        function drawSprite(n, dx, dy, scale, colorOverride) {
+            ctx.save();
+            ctx.translate(dx + 4, dy + 6);
+            ctx.scale(scale, scale);
+            ctx.translate(-4, -6);
+            ctx.fillStyle = PAL[colorOverride];
+            ctx.beginPath();
+            let px = n * 8;
+            for (let y = 0; y < 12; y++) {
+                for (let x = 0; x < 8; x++) {
+                    if (imgData[y][px + x] === '7') { ctx.rect(x, y, 1, 1); }
+                }
+            }
+            ctx.fill();
+            ctx.restore();
+        }
+
+        function draw_colored_number(num, x, y, scale_val) {
+            if (num === 6) {
+                drawSprite(num, x - 2, y, scale_val, 0); drawSprite(num, x + 2, y, scale_val, 0);
+                drawSprite(num, x, y - 2, scale_val, 0); drawSprite(num, x, y + 2, scale_val, 0);
+                drawSprite(num, x, y, scale_val, 10);
+            } else if (num === 9) { drawSprite(num, x, y, scale_val, 11); }
+            else if (num % 2 === 1) { drawSprite(num, x, y, scale_val, 12); }
+            else { drawSprite(num, x, y, scale_val, 8); }
+        }
+
+        function pText(x, y, text, colIdx) {
+            ctx.fillStyle = PAL[colIdx]; ctx.font = "bold 8px monospace"; ctx.fillText(text, x, y);
+        }
+
+        function draw() {
+            if (state === STATE_TITLE) {
+                ctx.fillStyle = PAL[1]; ctx.fillRect(0,0,160,120);
+                pText(40, 20, "PYXEL PACHINKO", timer % 20 < 10 ? 10 : 7);
+                pText(60, 28, "ULTIMATE", timer % 20 < 10 ? 10 : 7);
+                
+                let c0 = title_cursor === 0 ? 10 : 5;
+                ctx.strokeStyle = PAL[c0]; ctx.strokeRect(40, 45, 80, 15);
+                pText(58, 49, "NEW GAME", title_cursor === 0 ? 7 : 5);
+                
+                if (title_cursor === 0) pText(24, 65, use_limit ? "< LIMIT 50000: ON >" : "< LIMIT 50000: OFF >", timer % 10 < 5 ? 10 : 7);
+                
+                let c1 = title_cursor === 1 ? 10 : 5;
+                if (has_save) { ctx.strokeStyle = PAL[c1]; ctx.strokeRect(40, 80, 80, 15); pText(60, 84, "CONTINUE", title_cursor === 1 ? 7 : 5); }
+                else { ctx.strokeStyle = PAL[1]; ctx.strokeRect(40, 80, 80, 15); pText(60, 84, "CONTINUE", 1); }
+                return;
+            }
+
+            if (state === STATE_SP_CHANCE) { ctx.fillStyle = PAL[0]; ctx.fillRect(0,0,160,120); }
+            else if (state === STATE_SP_REACH) {
+                let sc = [10, 11, 8, 10, 2, 12, 14, (timer%10<5?5:1), (timer%30<3?10:1), 10];
+                ctx.fillStyle = PAL[sc[sp_type]]; ctx.fillRect(0,0,160,120);
+            } else if ([STATE_WIN, STATE_PREMIUM_FLASH, STATE_ZENKAITEN, STATE_CLEAR].includes(state) || (state===STATE_REACH && is_premium)) {
+                let colors = [8, 9, 10, 11, 12, 14, 8]; ctx.fillStyle = PAL[colors[Math.floor(timer/10)%colors.length]]; ctx.fillRect(0,0,160,120);
+            } else if ([STATE_REVIVAL, STATE_PROMOTION].includes(state)) { ctx.fillStyle = PAL[timer%20<10?10:9]; ctx.fillRect(0,0,160,120); }
+            else if ([STATE_SP9_EVOLVE, STATE_SP9_REACH].includes(state)) { ctx.fillStyle = PAL[1]; ctx.fillRect(0,0,160,120); }
+            else if (is_super_kakuken) { ctx.fillStyle = PAL[2]; ctx.fillRect(0,0,160,120); }
+            else if (is_kakuken) { ctx.fillStyle = PAL[8]; ctx.fillRect(0,0,160,120); }
+            else { ctx.fillStyle = PAL[1]; ctx.fillRect(0,0,160,120); }
+
+            if ([STATE_SPIN_ALL, STATE_SPIN_OUTER].includes(state) && yokoku_color !== 0 && timer % 16 < 8) {
+                ctx.strokeStyle = PAL[yokoku_color]; ctx.lineWidth = 2; ctx.strokeRect(1, 1, 158, 118); ctx.lineWidth = 1;
+            }
+            if ([STATE_SPIN_ALL, STATE_SPIN_OUTER].includes(state) && is_chance_text) { pText(62, 55, "CHANCE!!", timer%4<2?9:10); }
+
+            let colors = [8, 9, 10, 11, 12, 14]; let cTop = colors[Math.floor(timer/5)%colors.length];
+            if (is_super_kakuken) pText(2, 2, "SUPER KAKUKEN RUSH!!", cTop);
+            else if (is_kakuken) pText(2, 2, "KAKUKEN MODE", timer%10<5?10:7);
+            else if (st_count > 0) pText(2, 2, `ST CHANCE: ${st_count}`, 11);
+
+            if (renchan > 0 && ![STATE_CLEAR, STATE_RANKING].includes(state)) pText(62, 90, `${renchan} RENCHAN!!`, timer%10<5?10:7);
+            if (![STATE_CLEAR, STATE_RANKING].includes(state)) pText(110, 2, `TOTAL:${total_spins}`, 7);
+
+            if (state === STATE_IDLE) {
+                let cost_text = (is_kakuken||is_super_kakuken) ? "FREE!" : "-10 PT";
+                if (is_auto) pText(40, 102, `AUTO PLAY (${cost_text})`, timer%10<5?10:7);
+                else { if(!(is_kakuken||is_super_kakuken) && score<10) pText(40, 102, "NO POINTS...", timer%10<5?8:7); else pText(40, 102, `TAP TO SPIN (${cost_text})`, 7); }
+                if (force_mode !== 0) { ctx.fillStyle = PAL[0]; ctx.fillRect(0, 102, 40, 7); pText(2, 102, force_names[force_mode], timer%16<8?10:7); }
+                else pText(2, 102, "[UP] DBG", 13);
+                if (guarantee_kakuken) pText(40, 92, "NEXT: 100% FEVER!!", timer%4<2?10:9);
+            }
+            else if (state === STATE_REACH) {
+                let col = is_premium ? [8,9,10,11,12][Math.floor(timer/5)%5] : 10;
+                if (is_lucky_reach) { pText(is_double_reach?62:68, 22, is_double_reach?"DOUBLE LUCKY!":"LUCKY!", timer%4<2?9:10); }
+                else pText(is_double_reach?62:68, 22, is_double_reach?"DOUBLE REACH!":"REACH!", col);
+            }
+            else if (state === STATE_SLIP) pText(66, 22, "SLIP..!", 11);
+            else if (state === STATE_SP_CHANCE) pText(55, 55, ">>>> EVOLUTION <<<<", 7);
+            else if (state === STATE_SP_REACH) {
+                if(sp_type===7){pText(68,14,"SUPER!",timer%4<2?10:7);pText(60,22,"[CROSS FIRE]",timer%4<2?10:7);}
+                else if(sp_type===8){pText(68,14,"SUPER!",timer%8<4?10:7);pText(64,22,"[THUNDER]",timer%8<4?10:7);}
+                else {pText(68,22,"SUPER!",timer%4<2?10:7);}
+            }
+            else if (state === STATE_SP9_EVOLVE) pText(60, 55, "STAY...?!", 7);
+            else if (state === STATE_SP9_REACH) pText(55, 22, "REVERSE RUSH!!", timer%8<4?10:7);
+            else if (state === STATE_ZENKAITEN) pText(50, 22, "SUPER LUCKY!!", 0);
+            else if (state === STATE_PROMOTION) pText(35, 22, ">>> PROMOTION CHANCE!! <<<", 7);
+            else if (state === STATE_WIN) {
+                let fStr = "FEVER!!"; for(let j=0; j<fStr.length; j++) pText(65+j*6, 20+Math.floor(Math.sin(timer*0.15+j)*4), fStr[j], timer%8<4?10:7);
+            }
+            else if (state === STATE_ROULETTE || state === STATE_ROULETTE_STOP) {
+                pText(50, 22, "BONUS ROULETTE!", 10);
+                if(is_all_five && state===STATE_ROULETTE) pText(40, 85, "ALL 5 MATCH = x2 POINTS!!", timer%10<5?10:7);
+                let bx=45, by=40, bw=70, bh=40;
+                ctx.fillStyle = PAL[0]; ctx.fillRect(bx, by, bw, bh);
+                
+                if (state === STATE_ROULETTE) {
+                    ctx.save(); ctx.beginPath(); ctx.rect(bx, by, bw, bh); ctx.clip();
+                    for(let i=-2; i<=2; i++){
+                        let idx = (roulette_idx - i + active_roulette_data.length) % active_roulette_data.length;
+                        let pt = active_roulette_data[idx][0], col = active_roulette_data[idx][1];
+                        let yd = by + 16 + i*20 + Math.floor(roulette_y);
+                        let tStr = `${pt} PT`; pText(bx + 35 - tStr.length*3, yd, tStr, col);
+                    }
+                    ctx.restore();
+                } else {
+                    let pt = active_roulette_data[roulette_idx][0], bCol = active_roulette_data[roulette_idx][1];
+                    let tStr = `${pt}${is_all_five?" x2":""} = ${won_pt} PT!!`;
+                    let jump = Math.floor(Math.sin(timer*0.3)*5);
+                    pText(bx + (bw - tStr.length*5)/2, by + 16 + jump, tStr, timer%6<3?bCol:7);
+                }
+                ctx.strokeStyle = PAL[state===STATE_ROULETTE?13:(timer%8<4?10:13)]; ctx.strokeRect(bx-2, by-2, bw+4, bh+4);
+            }
+            else if ([STATE_LOSE, STATE_REVIVAL_WAIT].includes(state)) pText(70, 22, "END", 13);
+            else if (state === STATE_REVIVAL) pText(45, 22, ">>> REVIVAL!! <<<", 7);
+            else if (state === STATE_CLEAR) {
+                pText(35, 30, "CONGRATULATIONS!!", timer%10<5?10:7); pText(35, 50, "50000 PT REACHED!", 9);
+                pText(35, 75, `TOTAL SPINS : ${total_spins}`, 11); if(timer>60) pText(45, 100, "- TAP TO NEXT -", 7);
+            }
+            else if (state === STATE_RANKING) {
+                pText(50, 15, "--- RANKING ---", 10);
+                for(let i=0; i<ranking.length; i++) pText(40, 35+i*12, `RANK ${i+1} : ${ranking[i]} SPINS`, 7);
+                pText(30, 100, "TAP TO TITLE", 7);
+            }
+
+            if (![STATE_CLEAR, STATE_RANKING].includes(state)) {
+                ctx.fillStyle = PAL[0]; ctx.fillRect(0, 110, 160, 10);
+                pText(2, 111, `SPIN:${spins}`, 7); pText(45, 111, `WINS:${wins}`, 10); pText(85, 111, `PT:${score}`, 11);
+                ctx.fillStyle = PAL[is_auto?10:5]; ctx.fillRect(125, 110, 33, 9);
+                pText(131, 111, "AUTO", is_auto?0:7);
+                if (is_auto && timer%20<10) { ctx.strokeStyle = PAL[7]; ctx.strokeRect(125, 110, 33, 9); }
+            }
+
+            if (![STATE_ROULETTE, STATE_ROULETTE_STOP, STATE_CLEAR, STATE_RANKING].includes(state)) {
+                let col1 = timer%4<2 ? 10 : 9, col2 = timer%4<2 ? 11 : 3;
+                let isR1 = (targets[0]===targets[4] && state>=STATE_REACH) || [STATE_SP9_EVOLVE, STATE_SP9_REACH].includes(state);
+                let isR2 = (targets[1]===targets[3] && state>=STATE_REACH) || [STATE_SP9_EVOLVE, STATE_SP9_REACH].includes(state);
+                ctx.strokeStyle = PAL[(isR1 || state===STATE_WIN) ? col1 : 13]; ctx.beginPath(); ctx.moveTo(36,32); ctx.lineTo(124,84); ctx.stroke();
+                ctx.strokeStyle = PAL[(isR2 || state===STATE_WIN) ? col2 : 13]; ctx.beginPath(); ctx.moveTo(124,32); ctx.lineTo(36,84); ctx.stroke();
+
+                for(let i=0; i<5; i++){
+                    let x = reel_coords[i][0], yBase = reel_coords[i][1];
+                    ctx.fillStyle = PAL[0]; ctx.fillRect(x, yBase, 32, 48);
+                    
+                    ctx.save(); ctx.beginPath(); ctx.rect(x, yBase, 32, 48); ctx.clip();
+                    
+                    let cur = reels[i], next = (cur + (is_super_kakuken && targets.every(t=>[0,2,4,6,8].includes(t)) ? 2 : 1)) % 10;
+                    if(premium_type===2 && ![STATE_WIN_PAUSE, STATE_WIN].includes(state)) { cur=6; next=6; }
+                    if(premium_type===3 && state===STATE_SP_REACH && i===2) { cur=targets[2]; next=targets[2]; }
+                    
+                    let sc = 4.0;
+                    if (state===STATE_SP_REACH && i===2) {
+                        if(sp_type===6) sc += Math.sin(timer*0.1)*1.2; else if(sp_type===5) sc += Math.sin(timer*0.1)*0.8;
+                        else if(sp_type===4) sc += Math.sin(timer*0.15)*0.6; else if(sp_type===8) sc += Math.sin(timer*0.3)*1.0;
+                        else if(sp_type===7) sc += Math.sin(timer*0.2)*0.5; else sc += Math.sin(timer*0.1)*0.4;
+                    } else if(state===STATE_SP9_REACH && i!==2) { sc += Math.sin(timer*0.2)*0.5; }
+                    
+                    let draw_y = yBase + Math.floor(reel_y[i]*4) + 22 + (state===STATE_WIN ? Math.floor(Math.sin(timer*0.2+i*1.5)*6) : 0);
+                    
+                    draw_colored_number(cur, x+12, draw_y, sc);
+                    draw_colored_number(next, x+12, draw_y-48, sc);
+                    ctx.restore();
+                    
+                    let bCol = ([STATE_WIN, STATE_ZENKAITEN, STATE_REVIVAL, STATE_PROMOTION].includes(state) && timer%16<8) ? 10 : 13;
+                    ctx.strokeStyle = PAL[bCol]; ctx.strokeRect(x-2, yBase-2, 36, 52);
+                }
+            }
+        }
+
+        setInterval(() => { update(); draw(); }, 1000 / 60);
+
+    </script>
+</body>
+</html>
